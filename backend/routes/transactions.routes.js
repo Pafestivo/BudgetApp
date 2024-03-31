@@ -8,10 +8,10 @@ const {
 } = require("../controllers/transactions.controllers");
 const transactionsRouter = express.Router();
 
-transactionsRouter.post("/transaction", createTransaction);
-transactionsRouter.get("/transaction", getPaginatedTransactions);
-transactionsRouter.get("/transaction/expenses", getPaginatedExpenses);
-transactionsRouter.get("/transaction/incomes", getPaginatedIncomes);
-transactionsRouter.put("/transaction", putTransaction);
+transactionsRouter.post("/transactions", createTransaction);
+transactionsRouter.get("/transactions", getPaginatedTransactions);
+transactionsRouter.get("/transactions/expenses", getPaginatedExpenses);
+transactionsRouter.get("/transactions/incomes", getPaginatedIncomes);
+transactionsRouter.put("/transactions", putTransaction);
 
 module.exports = transactionsRouter;
