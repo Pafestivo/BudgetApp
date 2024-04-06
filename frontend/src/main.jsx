@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from './store.js';
+import { store } from './state/store.js';
 import DashboardPage from './pages/Dashboard';
 import PageNotFound from './pages/ErrorElement';
 import TransactionsPage from './pages/Transactions';
