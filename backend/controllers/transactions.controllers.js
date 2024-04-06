@@ -3,7 +3,7 @@ const getPaginationMetadata = require("../utils/getPaginationMetadata");
 
 // @POST /api/transactions
 // @desc post new transaction
-// @requiredParams: name, amount, date
+// @requiredBody: name, amount, date
 const createTransaction = async (req, res) => {
   try {
     const { name, amount, date } = req.body;
@@ -40,8 +40,8 @@ const createTransaction = async (req, res) => {
 
 // @PUT /api/transactions
 // @desc update transaction
-// @requiredParams: id
-// @optionalParams: name, amount, date
+// @requiredBody: id
+// @optionalBody: name, amount, date
 const putTransaction = async (req, res) => {
   try {
     const { id, name, amount, date } = req.body;
@@ -80,8 +80,7 @@ const putTransaction = async (req, res) => {
 
 // @GET /api/transactions
 // @desc get paginated transactions data
-// @requiredParams: none
-// @optionalParams: page, limit
+// @optionalQuery: page, limit
 const getPaginatedTransactions = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Requested page
@@ -112,8 +111,7 @@ const getPaginatedTransactions = async (req, res) => {
 
 // @GET /api/transactions/expenses
 // @desc get paginated expenses data
-// @requiredParams: none
-// @optionalParams: page, limit
+// @optionalQuery: page, limit
 const getPaginatedExpenses = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Requested page
@@ -145,8 +143,7 @@ const getPaginatedExpenses = async (req, res) => {
 
 // @GET /api/transactions/incomes
 // @desc get paginated incomes data
-// @requiredParams: none
-// @optionalParams: page, limit
+// @optionalQuery: page, limit
 const getPaginatedIncomes = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Requested page
@@ -176,6 +173,9 @@ const getPaginatedIncomes = async (req, res) => {
   }
 };
 
+// @DELETE /api/transactions/:id
+// @desc delete a transaction
+// @requiredParams: id
 const deleteTransaction = async (req, res) => {
   try {
     const id = req.params.id;
