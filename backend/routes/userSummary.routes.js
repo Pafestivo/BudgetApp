@@ -7,7 +7,10 @@ const {
 const userSummary = express.Router();
 
 userSummary.get("/user/currentBalance", getUserBalance);
-userSummary.get("/user/monthlyIncomes", getUserMonthlyIncomes);
-userSummary.get("/user/monthlyExpenses", getUserMonthlyExpenses);
+userSummary.get("/user/monthlyIncomes/:requestedMonth", getUserMonthlyIncomes);
+userSummary.get(
+  "/user/monthlyExpenses/:requestedMonth",
+  getUserMonthlyExpenses
+);
 
 module.exports = userSummary;

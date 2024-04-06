@@ -46,11 +46,11 @@
 
   - **api/user/currentBalance** - get the user's current balance
     - Not taking any params
-  - **api/user/monthlyIncomes** - get total monthly incomes for user
-    - Request Body:
+  - **api/user/monthlyIncomes/:requestedMonth** - get total monthly incomes for user
+    - Request Params:
       - requestedMonth(number between 1-12)
-  - **api/user/monthlyExpenses** - get total monthly expenses for user
-    - Request Body:
+  - **api/user/monthlyExpenses/:requestedMonth** - get total monthly expenses for user
+    - Request Params:
       - requestedMonth(number between 1-12)
 
 # Utilities:

@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  totalIncome: 0,
-  totalExpenses: 0,
-  remainingBalance: 0,
-};
+const initialState = null;
 
 const budgetOverviewSlice = createSlice({
   name: "budgetOverview",
   initialState,
   reducers: {
+    initiateBudgetOverview: (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
     incrementTotalIncome: (state, action) => {
       state.totalIncome += action.payload;
       state.remainingBalance += action.payload;
@@ -30,6 +32,7 @@ const budgetOverviewSlice = createSlice({
 });
 
 export const {
+  initiateBudgetOverview,
   incrementTotalIncome,
   decrementTotalIncome,
   incrementTotalExpenses,

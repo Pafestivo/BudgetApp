@@ -22,10 +22,10 @@ const getUserBalance = async (req, res) => {
 
 // @GET /api/user/monthlyIncomes
 // @desc get total monthly incomes for user
-// @requiredBody: requestedMonth(number between 1-12)
+// @requiredParams: requestedMonth(number between 1-12)
 const getUserMonthlyIncomes = async (req, res) => {
   try {
-    const { requestedMonth } = req.body;
+    const { requestedMonth } = req.params;
     const userId = 1; // Hardcoded as there is no authentication implemented
 
     // Get the user total income in specific month
@@ -50,10 +50,10 @@ const getUserMonthlyIncomes = async (req, res) => {
 
 // @GET /api/user/monthlyExpenses
 // @desc get total monthly expenses for user
-// @requiredBody: requestedMonth(number between 1-12)
+// @requiredParams: requestedMonth(number between 1-12)
 const getUserMonthlyExpenses = async (req, res) => {
   try {
-    const { requestedMonth } = req.body;
+    const { requestedMonth } = req.params;
     const userId = 1; // Hardcoded as there is no authentication implemented
 
     // Get the user total expenses in specific month
