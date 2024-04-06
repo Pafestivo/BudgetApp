@@ -18,15 +18,27 @@
       - limit: number
 
 - #### PUT:
+
   - **api/transactions** - Update transaction
     - Request Body:
       - id: number
       - name: string
       - amount: number
       - date: string
+
 - #### POST:
 
+  - **api/transactions** - Post new transaction
+    - Request Body:
+      - name: string
+      - amount: number
+      - date: string
+
 - #### DELETE:
+
+  - **api/transactions/:id** - Delete transaction
+    - Request Params:
+      - id: number
 
 # Utilities:
 

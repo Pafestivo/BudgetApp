@@ -176,10 +176,35 @@ const getPaginatedIncomes = async (req, res) => {
   }
 };
 
+const deleteTransaction = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    // Validation
+    if (!id) return res.status(400).json({ message: "Id is required" });
+
+    const response = await db.query(`DELETE FROM transactions WHERE id = ?`, [
+      id,
+    ]);
+
+    if (response[0].affectedRows === 0) {
+      return res.status(404).json({ message: "Transaction not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Transaction deleted",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createTransaction,
   getPaginatedTransactions,
   getPaginatedExpenses,
   getPaginatedIncomes,
   putTransaction,
+  deleteTransaction,
 };
