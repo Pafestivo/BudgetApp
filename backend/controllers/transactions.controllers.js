@@ -5,6 +5,8 @@ const getPaginationMetadata = require("../utils/getPaginationMetadata");
 // @desc post new transaction
 // @requiredBody: name, amount, date
 const createTransaction = async (req, res) => {
+  let connection;
+
   try {
     const { name, amount, date } = req.body;
     const userId = 1; // Hardcoded as there is no authentication implemented
@@ -15,24 +17,47 @@ const createTransaction = async (req, res) => {
     if (!amount) return res.status(400).json({ message: "Amount is required" });
     if (!date) return res.status(400).json({ message: "Date is required" });
 
-    // Insert the transaction into the database
-    const response = await db.query(
-      `INSERT INTO transactions (userId, name, amount, type, date) VALUES (?,?,?,?,?)`,
-      [userId, name, amount, type, date]
-    );
+    // manually get a connection to execute multiple queries in a transaction
+    // this is necessary because the db.query method does not support transactions
+    connection = await db.getConnection();
+    await connection.beginTransaction();
 
-    res.status(201).json({
-      success: true,
-      message: "Transaction created",
-      data: {
-        id: response[0].insertId,
-        userId,
-        name,
-        amount,
-        type,
-        date,
-      },
-    });
+    try {
+      // Insert the transaction into the database
+      const response = await connection.query(
+        `INSERT INTO transactions (userId, name, amount, type, date) VALUES (?,?,?,?,?)`,
+        [userId, name, amount, type, date]
+      );
+
+      // Update the user balance based on the transaction
+      await connection.query(
+        `UPDATE user SET balance = balance + ? WHERE id = ?`,
+        [amount, userId]
+      );
+
+      // Commit the transaction if both queries succeed
+      await connection.commit();
+
+      res.status(201).json({
+        success: true,
+        message: "Transaction created",
+        data: {
+          id: response[0].insertId,
+          userId,
+          name,
+          amount,
+          type,
+          date,
+        },
+      });
+    } catch (error) {
+      // rollback the transaction if any of the queries fail
+      await connection.rollback();
+      res.status(500).json({ message: error.message });
+    } finally {
+      // manually release the connection
+      connection.release();
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -45,6 +70,7 @@ const createTransaction = async (req, res) => {
 const putTransaction = async (req, res) => {
   try {
     const { id, name, amount, date } = req.body;
+    const userId = 1; // Hardcoded as there is no authentication implemented
     const type = amount < 0 ? "expense" : "income"; // infer type from amount
 
     // Validation
@@ -52,27 +78,57 @@ const putTransaction = async (req, res) => {
     if (!name && !amount && !date)
       return res.status(400).json({ message: "No data received for update" });
 
-    // Update the transaction in the database
-    const response = await db.query(
-      `UPDATE transactions SET name = ?, amount = ?, type = ?, date = ? WHERE id = ?`,
-      [name, amount, type, date, id]
-    );
+    // manually get a connection to execute multiple queries in a transaction
+    connection = await db.getConnection();
+    await connection.beginTransaction();
 
-    if (response[0].affectedRows === 0) {
-      return res.status(404).json({ message: "Transaction not found" });
+    try {
+      // get the old transaction data to update the user balance
+      const [oldTransaction] = await db.query(
+        `SELECT amount FROM transactions WHERE id = ?`,
+        [id]
+      );
+      if (oldTransaction.length === 0) {
+        return res.status(404).json({ message: "Transaction not found" });
+      }
+      const oldAmount = oldTransaction[0].amount;
+
+      // Update the transaction in the database
+      const response = await db.query(
+        `UPDATE transactions SET name = ?, amount = ?, type = ?, date = ? WHERE id = ?`,
+        [name, amount, type, date, id]
+      );
+      if (response[0].affectedRows === 0) {
+        return res.status(404).json({ message: "Transaction not found" });
+      }
+
+      // Update the user balance based on the transaction
+      const balanceChange = amount - oldAmount;
+      await connection.query(
+        `UPDATE user SET balance = balance + ? WHERE id = ?`,
+        [balanceChange, userId]
+      );
+
+      // Commit the transaction if both queries succeed
+      await connection.commit();
+
+      res.status(200).json({
+        success: true,
+        message: "Transaction updated",
+        data: {
+          id,
+          name,
+          amount,
+          type,
+          date,
+        },
+      });
+    } catch (error) {
+      await connection.rollback();
+      res.status(500).json({ message: error.message });
+    } finally {
+      connection.release();
     }
-
-    res.status(200).json({
-      success: true,
-      message: "Transaction updated",
-      data: {
-        id,
-        name,
-        amount,
-        type,
-        date,
-      },
-    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -179,22 +235,52 @@ const getPaginatedIncomes = async (req, res) => {
 const deleteTransaction = async (req, res) => {
   try {
     const id = req.params.id;
+    const userId = 1; // Hardcoded as there is no authentication implemented
 
     // Validation
     if (!id) return res.status(400).json({ message: "Id is required" });
 
-    const response = await db.query(`DELETE FROM transactions WHERE id = ?`, [
-      id,
-    ]);
+    connection = await db.getConnection();
+    await connection.beginTransaction();
 
-    if (response[0].affectedRows === 0) {
-      return res.status(404).json({ message: "Transaction not found" });
+    try {
+      // get the old transaction data to update the user balance
+      const [oldTransaction] = await db.query(
+        `SELECT amount FROM transactions WHERE id = ?`,
+        [id]
+      );
+      if (oldTransaction.length === 0) {
+        return res.status(404).json({ message: "Transaction not found" });
+      }
+      const transactionAmount = oldTransaction[0].amount;
+
+      // Delete the transaction from the database
+      const response = await db.query(`DELETE FROM transactions WHERE id = ?`, [
+        id,
+      ]);
+      if (response[0].affectedRows === 0) {
+        return res.status(404).json({ message: "Transaction not found" });
+      }
+
+      // Update the user balance based on the transaction
+      await connection.query(
+        `UPDATE user SET balance = balance - ? WHERE id = ?`,
+        [transactionAmount, userId]
+      );
+
+      // Commit the transaction if both queries succeed
+      await connection.commit();
+
+      res.status(200).json({
+        success: true,
+        message: "Transaction deleted",
+      });
+    } catch (error) {
+      await connection.rollback();
+      res.status(500).json({ message: error.message });
+    } finally {
+      connection.release();
     }
-
-    res.status(200).json({
-      success: true,
-      message: "Transaction deleted",
-    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
