@@ -1,12 +1,81 @@
 const db = require("../config/db");
 const getPaginationMetadata = require("../utils/getPaginationMetadata");
 
+// @POST /api/transactions
+// @desc post new transaction
+// @requiredParams: name, amount, date
 const createTransaction = async (req, res) => {
-  res.status(200).json({ message: "createTransaction" });
+  try {
+    const { name, amount, date } = req.body;
+    const userId = 1; // Hardcoded as there is no authentication implemented
+    const type = amount < 0 ? "expense" : "income"; // infer type from amount
+
+    // Validation
+    if (!name) return res.status(400).json({ message: "Name is required" });
+    if (!amount) return res.status(400).json({ message: "Amount is required" });
+    if (!date) return res.status(400).json({ message: "Date is required" });
+
+    // Insert the transaction into the database
+    const response = await db.query(
+      `INSERT INTO transactions (userId, name, amount, type, date) VALUES (?,?,?,?,?)`,
+      [userId, name, amount, type, date]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Transaction created",
+      data: {
+        id: response[0].insertId,
+        userId,
+        name,
+        amount,
+        type,
+        date,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
+// @PUT /api/transactions
+// @desc update transaction
+// @requiredParams: id
+// @optionalParams: name, amount, date
 const putTransaction = async (req, res) => {
-  res.status(200).json({ message: "putTransaction" });
+  try {
+    const { id, name, amount, date } = req.body;
+    const type = amount < 0 ? "expense" : "income"; // infer type from amount
+
+    // Validation
+    if (!id) return res.status(400).json({ message: "Id is required" });
+    if (!name && !amount && !date)
+      return res.status(400).json({ message: "No data received for update" });
+
+    // Update the transaction in the database
+    const response = await db.query(
+      `UPDATE transactions SET name = ?, amount = ?, type = ?, date = ? WHERE id = ?`,
+      [name, amount, type, date, id]
+    );
+
+    if (response[0].affectedRows === 0) {
+      return res.status(404).json({ message: "Transaction not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Transaction updated",
+      data: {
+        id,
+        name,
+        amount,
+        type,
+        date,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // @GET /api/transactions
@@ -32,6 +101,7 @@ const getPaginatedTransactions = async (req, res) => {
     );
 
     res.status(200).json({
+      success: true,
       data: response[0],
       paginationData,
     });
@@ -64,6 +134,7 @@ const getPaginatedExpenses = async (req, res) => {
     );
 
     res.status(200).json({
+      success: true,
       data: response[0],
       paginationData,
     });
@@ -96,6 +167,7 @@ const getPaginatedIncomes = async (req, res) => {
     );
 
     res.status(200).json({
+      success: true,
       data: response[0],
       paginationData,
     });

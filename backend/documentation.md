@@ -2,39 +2,48 @@
 
 ### Transactions:
 
-> #### Get
->
-> > **api/transactions?page=number&limit=number** - Get paginated transactions<br> **api/transactions/expenses?page=number&limit=number** - Get paginated expenses<br> **api/transactions/incomes?page=number&limit=number** - Get paginated incomes<br>
->
-> #### PUT:
->
-> #### Post:
->
-> #### Delete:
+- #### Get
+
+  - **api/transactions** - Get paginated transactions
+    - Request Query:
+      - page: number
+      - limit: number
+  - **api/transactions/expenses** - Get paginated expenses
+    - Request Query:
+      - page: number
+      - limit: number
+  - **api/transactions/incomes** - Get paginated incomes
+    - Request Query:
+      - page: number
+      - limit: number
+
+- #### PUT:
+  - **api/transactions** - Update transaction
+    - Request Body:
+      - id: number
+      - name: string
+      - amount: number
+      - date: string
+- #### POST:
+
+- #### DELETE:
 
 # Utilities:
 
 ### getPaginationMetadata()
 
-> ```ts
-> getPaginationMetadata(page: number, limit: number, tableName: string, condition?: string)
-> ```
->
-> ##### Description
->
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get the pagination metadata.
->
-> ##### Parameters
->
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**page** - Requested page number.<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**limit** - Amount of entries per page.<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**tableName** - The name of the table in the DB to count.<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**condition(optional)** - specify a condition for example `type = 'income'`<br>
->
-> ##### Returns
->
-> ```ts
-> {
->  currentPage: number,
->  totalPages: number,
->  totalCount: number,
->  itemsPerPage: number
-> }
-> ```
+- ##### Get Pagination Metadata.
+- ##### Parameters
+  - **page: number -** Requested page number.
+  - **limit: number -** Amount of entries per page.
+  - **tableName: string -** The name of the DB table to count.
+  - **condition: string -** Specify a filter to count by.(optional) - i.e `type = 'income'`
+- ##### Returns
+  ```ts
+    {
+      currentPage: number,
+      totalPages: number,
+      totalCount: number,
+      itemsPerPage: number
+    }
+  ```
