@@ -40,6 +40,19 @@
     - Request Params:
       - id: number
 
+### userSummary:
+
+- #### Get
+
+  - **api/user/currentBalance** - get the user's current balance
+    - Not taking any params
+  - **api/user/monthlyIncomes** - get total monthly incomes for user
+    - Request Body:
+      - requestedMonth(number between 1-12)
+  - **api/user/monthlyExpenses** - get total monthly expenses for user
+    - Request Body:
+      - requestedMonth(number between 1-12)
+
 # Utilities:
 
 ### getPaginationMetadata()
