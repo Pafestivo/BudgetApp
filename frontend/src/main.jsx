@@ -7,6 +7,8 @@ import DashboardPage from './pages/Dashboard';
 import PageNotFound from './pages/ErrorElement';
 import TransactionsPage from './pages/Transactions';
 import SingleTransactionPage from './pages/SingleTransactionPage';
+import './styles/globals.css';
+import Layout from './layout.jsx';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +29,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <Layout>
+        <RouterProvider router={router} />
+      </Layout>
     </Provider>
   </React.StrictMode>,
 )
