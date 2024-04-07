@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { deleteData } from "../utils/serverRequests/serverRequests";
 import { useNavigate } from "react-router-dom";
 import { decrementTotalExpenses, decrementTotalIncome } from "../state/budgetOverview/budgetOverviewSlice";
+import { removeTransaction } from "../state/fetchedTransactions/fetchedTransactionsSlice";
 
 const SingleTransactionPage = () => {
   const selectedTransaction = useSelector((state) => state.selectedTransaction.selectedTransaction);
@@ -19,6 +20,7 @@ const SingleTransactionPage = () => {
         console.log("Transaction deleted successfully");
         if (selectedTransaction.type === "income") dispatch(decrementTotalIncome(selectedTransaction.amount));
         else if (selectedTransaction.type === "expense") dispatch(decrementTotalExpenses(selectedTransaction.amount));
+        dispatch(removeTransaction(selectedTransaction.id));
         navigate("/transactions");
       }
     } catch (err) {
