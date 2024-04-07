@@ -5,6 +5,8 @@ import "../styles/transactionsPage.css"
 import PageNav from "../components/PageNav";
 import { Link } from 'react-router-dom';
 import SortOverlay from "../components/SortOverlay";
+import { useDispatch } from "react-redux";
+import { setSelectedItem } from "../state/selectedTransaction/selectedTransactionSlice";
 
 const TransactionsPage = () => {
 
@@ -15,13 +17,19 @@ const TransactionsPage = () => {
   const [sort, setSort] = useState(null);
   const [isSortOpen, setIsSortOpen] = useState(false);
 
+  const dispatch = useDispatch();
+
   const fetchTransactions = useCallback(async (page, limit) => {
-    let response;
-    if (!sort) response = await getData(`/transactions?page=${page}&limit=${limit}`);
-    if (sort === "incomes") response = await getData(`/transactions/incomes?page=${page}&limit=${limit}`);
-    if (sort === "expenses") response = await getData(`/transactions/expenses?page=${page}&limit=${limit}`);
-    setTransactions(response.data);
-    setTotalPages(response.paginationData.totalPages)
+    try {
+      let response;
+      if (!sort) response = await getData(`/transactions?page=${page}&limit=${limit}`);
+      if (sort === "incomes") response = await getData(`/transactions/incomes?page=${page}&limit=${limit}`);
+      if (sort === "expenses") response = await getData(`/transactions/expenses?page=${page}&limit=${limit}`);
+      setTransactions(response.data);
+      setTotalPages(response.paginationData.totalPages)
+    } catch (err) {
+      console.log(err);
+    }
   }, [sort]) 
 
   useEffect(() => {
@@ -38,9 +46,11 @@ const TransactionsPage = () => {
           <p>Click to edit or delete.</p>
         </div>
         <div className="transactionsContainer">
-          {transactions.map((transaction) => (
-            <TransactionBar key={transaction.id} transaction={transaction} />
-          ))}
+            {transactions.map((transaction) => (
+              <Link onClick={() => dispatch(setSelectedItem(transaction))} to={`/transactions/${transaction.id}`} key={transaction.id}>
+                <TransactionBar key={transaction.id} transaction={transaction} />
+              </Link> 
+            ))}
           <Link className="btn newTransactionBtn" to="/transactions/new">Create New Transaction</Link>
           <div className="sortContainer">
             <Link to="/" className="btn">Back to dashboard</Link>

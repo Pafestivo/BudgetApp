@@ -44,3 +44,8 @@
   align-items: center;
   padding: 0 10px;
 }
+
+.transactionsContainer > a {
+  width: 500px;
+  max-width: 90vw;
+}

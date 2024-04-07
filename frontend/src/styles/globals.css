@@ -49,6 +49,11 @@
 
 a {
   text-decoration: none;
+  color: inherit;
+}
+
+.title {
+  font-weight: bold;
 }
 
 

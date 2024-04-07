@@ -1,0 +1,45 @@
+.singleTransactionContainer {
+  background-color: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  max-width: 90vw;
+  margin: 40px auto;
+  border-radius: 10px;
+}
+
+.singleTransactionContainer > h1 {
+  text-align: center;
+}
+
+.singleTransactionDetails {
+  padding: 10px 45px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.singleTransactionDetails p {
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.singleTransactionDetails p .title {
+  text-align: left;
+  margin-right: auto;
+}
+
+.singleTransactionDetails p .value {
+  text-align: right;
+}
+
+.singleTransactionContainer .crudOptions {
+  display: flex;
+  margin-bottom: 10px;
+  column-gap: 10px;
+  width: 90%;
+}
