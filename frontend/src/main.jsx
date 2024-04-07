@@ -9,6 +9,7 @@ import TransactionsPage from './pages/Transactions';
 import SingleTransactionPage from './pages/SingleTransactionPage';
 import './styles/globals.css';
 import Layout from './layout.jsx';
+import NewTransactionForm from './pages/NewTransactionForm.jsx';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/transactions',
     element: <TransactionsPage />,
+  },
+  {
+    path: '/transactions/new',
+    element: <NewTransactionForm />,
   },
   {
     path: '/transactions/:transactionId',

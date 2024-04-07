@@ -14,8 +14,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  row-gap: 15px;
   margin-top: 20px;
-  max-width: 800px;
+  max-width: min(800px, 90vw);
   background-color: var(--secondary-color);
   border-radius: 20px;
   padding: 20px 40px 50px 40px;
@@ -27,5 +28,8 @@
 
 .info-text {
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
   font-size: 1.6rem;
 }

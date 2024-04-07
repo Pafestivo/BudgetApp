@@ -1,0 +1,19 @@
+.transactionBar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: var(--secondary-color);
+  padding: 10px 20px;
+  border-radius: 5px;
+  width: 90%;
+  max-width: min(500px, 90vw);
+  text-align: center;
+  align-items: center;
+}
+
+.transactionBar__date {
+  text-align: left;
+}
+
+.transactionBar__amount {
+  text-align: right;
+}

@@ -1,0 +1,62 @@
+.pageNav {
+  display: flex;
+  width: max-content;
+  max-width: 90vw;
+  height: 40px;
+  row-gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 200px;
+}
+
+.pageNav > .top {
+  display: flex;
+  width: max-content;
+  max-width: 90vw;
+  column-gap: 10px;
+}
+
+.pageNav > .bottom {
+  display: flex;
+  width: max-content;
+  max-width: 90vw;
+  column-gap: 10px;
+}
+
+.currentPage {
+  display: flex;
+  background-color: var(--secondary-color);
+  color: var(--main-accent-color);
+  border-radius: 5px;
+  padding: 10px 20px;
+  justify-self: center;
+  align-self: center;
+}
+
+.pageNav > .bottom > label {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.pageNav > .bottom > select {
+  padding: 5px 8px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 4px;
+  color: var(--main-accent-color);
+  background-color: var(--secondary-color);
+  border: none;
+}
+
+.pageNav > .bottom > select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Styling the dropdown arrow for Firefox */
+.pageNav > .bottom > select::-ms-expand {
+  display: none;
+}
