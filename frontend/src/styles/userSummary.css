@@ -1,0 +1,37 @@
+.userSummaryContainer {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  align-items: center;
+  background-color: var(--secondary-color);
+  color: var(--main-accent-color);
+  padding: 20px 40px;
+  border-radius: 5px;
+}
+
+.userSummaryContainer h1 {
+  margin: 0;
+}
+
+.summaryDetails {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.summaryDetails p {
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.summaryDetails p .title {
+  text-align: left;
+  margin-right: auto;
+}
+
+.summaryDetails p .value {
+  text-align: right;
+}

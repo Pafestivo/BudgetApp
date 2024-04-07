@@ -15,7 +15,7 @@ const ThemeSwitch = () => {
     const root = document.documentElement;
     root.style.setProperty('--main-color', isDarkMode ? '#393e46' : '#FFFBF5');
     root.style.setProperty('--secondary-color', isDarkMode ? '#222831' : '#F7EFE5');
-    root.style.setProperty('--main-accent-color', isDarkMode ? '#eee' : '#C3ACD0');
+    root.style.setProperty('--main-accent-color', isDarkMode ? '#eee' : '#000');
     root.style.setProperty('--secondary-accent-color', isDarkMode ? '#FD7014' : '#7743DB');
   }, [isDarkMode]);
 

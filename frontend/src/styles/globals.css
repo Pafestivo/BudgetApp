@@ -3,17 +3,26 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* css reset */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 
   /* Default is dark theme as a fallback */
   --main-color: #393e46;
   --secondary-color: #222831;
   --main-accent-color: #FD7014;
   --secondary-accent-color: #eee;
+
+  background-color: var(--main-color);
+  color: var(--secondary-accent-color);
+}
+
+.highlight-text {
+  color: var(--secondary-accent-color);
 }

@@ -3,6 +3,7 @@ import "../styles/userSummary.css";
 import { useCallback, useEffect } from "react";
 import { getData } from "../utils/serverRequests/serverRequests";
 import { initiateBudgetOverview } from "../state/budgetOverview/budgetOverviewSlice";
+import { formatNumber } from "../utils/formatNumber";
 
 const UserSummary = () => {
 
@@ -33,12 +34,23 @@ const UserSummary = () => {
 
   return (
     <div className="userSummaryContainer">
-      <h1>Summary</h1>
-      <p>Current Balance: {budgetOverview ? budgetOverview.remainingBalance : '0'}</p>
-      <p>Monthly Incomes: {budgetOverview ? budgetOverview.totalIncome : '0'}</p>
-      <p>Monthly Expenses: {budgetOverview ? budgetOverview.totalExpenses : '0'}</p>
+      <h1 className="highlight-text">Summary</h1>
+      <div className="summaryDetails">
+        <p>
+          <span className="title">Current Balance:</span>
+          <span className="value">{formatNumber(budgetOverview ? budgetOverview.remainingBalance : '0')}$</span>
+        </p>
+        <p>
+          <span className="title">Monthly Incomes:</span>
+          <span className="value">{formatNumber(budgetOverview ? budgetOverview.totalIncome : '0')}$</span>
+        </p>
+        <p>
+          <span className="title">Monthly Expenses:</span>
+          <span className="value">{formatNumber(budgetOverview ? budgetOverview.totalExpenses : '0')}$</span>
+        </p>
+      </div>
     </div>
-  )
+  );
 }
 
 export default UserSummary;
