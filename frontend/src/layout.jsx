@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import ThemeSwitch from './components/ThemeSwitch';
+import Header from './components/Header';
 
 const Layout = ({ children }) => {
   return (
     <div>
-      <ThemeSwitch />
+      <Header />
       {children}
     </div>
   );

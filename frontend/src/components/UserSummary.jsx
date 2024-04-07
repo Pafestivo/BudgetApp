@@ -4,6 +4,7 @@ import { useCallback, useEffect } from "react";
 import { getData } from "../utils/serverRequests/serverRequests";
 import { initiateBudgetOverview } from "../state/budgetOverview/budgetOverviewSlice";
 import { formatNumber } from "../utils/formatNumber";
+import { Link } from "react-router-dom";
 
 const UserSummary = () => {
 
@@ -49,6 +50,7 @@ const UserSummary = () => {
           <span className="value">{formatNumber(budgetOverview ? budgetOverview.totalExpenses : '0')}$</span>
         </p>
       </div>
+      <Link to="/transactions" className="btn">View Transactions</Link>
     </div>
   );
 }
