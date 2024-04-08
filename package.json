@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node backend/server.js & npm run dev --prefix frontend"
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "dev": "node backend/server.js & npm run dev --prefix frontend",
+    "start": "node backend/server.js & npm run preview --prefix frontend"
   },
   "author": "",
   "license": "ISC"
