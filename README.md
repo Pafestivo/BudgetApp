@@ -1,8 +1,10 @@
-![Dashboard](/image-1.png)
+# Budget App
 
-![Transactions List](/image-2.png)
+![Dashboard](frontend/public/image-1.png)
 
-![Details Screen](/image-1.png)
+![Transactions List](frontend/public/image-2.png)
+
+![Details Screen](frontend/public/image-3.png)
 
 ## Technologies Used:
 
