@@ -1,0 +1,58 @@
+.newTransactionFormContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.newTransactionFormContainer > form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  row-gap: 30px;
+  width: 500px;
+  max-width: 90vw;
+  border-radius: 20px;
+  background-color: var(--secondary-color);
+}
+
+.newTransactionFormContainer .inputContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.newTransactionFormContainer .buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  column-gap: 20px;
+}
+
+.newTransactionFormContainer > form input {
+  width: 90%;
+  max-width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1.4rem;
+  padding-left: 20px;
+}
+
+.newTransactionFormContainer > form button {
+  width: 250px;
+  height: 50px;
+  font-size: 1.2rem;
+  border: none;
+  max-width: 90%;
+}
+
+.formError {
+  color: red;
+  padding: 5px 0 0px 25px;
+  height: 15px;
+  align-self: flex-start;
+}

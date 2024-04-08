@@ -1,4 +1,5 @@
 export const formatNumber = (number) => {
+  if (!number) return 0;
   // Convert the number to a string
   let numStr = number.toString();
 

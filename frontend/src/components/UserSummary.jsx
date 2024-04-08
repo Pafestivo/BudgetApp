@@ -18,8 +18,8 @@ const UserSummary = () => {
       const monthlyExpensesResponse = await getData(`/user/monthlyExpenses/${new Date().getMonth() + 1}`);
       dispatch(initiateBudgetOverview({
         remainingBalance: currentBalanceResponse.data.balance,
-        totalIncome: monthlyIncomesResponse.data.totalIncome,
-        totalExpenses: monthlyExpensesResponse.data.totalExpense
+        totalIncome: monthlyIncomesResponse.data,
+        totalExpenses: monthlyExpensesResponse.data
       }));
     } catch (error) {
       console.error(`error fetching budgetOverview: ${error}`);

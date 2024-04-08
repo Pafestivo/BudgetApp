@@ -17,7 +17,7 @@ TransactionBar.propTypes = {
   transaction: PropTypes.shape({
     date: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    amount: PropTypes.number.isRequired,
+    amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   }).isRequired,
 };
 

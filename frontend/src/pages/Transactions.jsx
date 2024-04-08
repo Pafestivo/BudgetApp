@@ -58,7 +58,8 @@ const TransactionsPage = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch, filter, storedTransactions]) 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, filter]) 
 
   useEffect(() => {
     fetchTransactions(page, limit, false)

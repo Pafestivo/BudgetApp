@@ -24,12 +24,14 @@ const budgetOverviewSlice = createSlice({
     },
     incrementTotalExpenses: (state, action) => {
       if (state === null) return;
-      state.totalExpenses += action.payload;
+      console.log(state.totalExpenses, action.payload);
+      state.totalExpenses -= action.payload;
       state.remainingBalance -= action.payload;
     },
     decrementTotalExpenses: (state, action) => {
       if (state === null) return;
-      state.totalExpenses -= action.payload;
+      console.log(state.totalExpenses, action.payload);
+      state.totalExpenses += action.payload;
       state.remainingBalance += action.payload;
     },
   },

@@ -13,7 +13,10 @@ const fetchedTransactionsSlice = createSlice({
         (transaction) =>
           !state.transactions.some((t) => t.id === transaction.id)
       );
-      state.transactions.push(...newTransactions);
+      return {
+        ...state,
+        transactions: [...state.transactions, ...newTransactions],
+      };
     },
     removeTransaction: (state, action) => {
       state.transactions = state.transactions.filter(
@@ -25,8 +28,16 @@ const fetchedTransactionsSlice = createSlice({
         (t) => t.id === action.payload.id
       );
       if (index !== -1) {
-        state.transactions[index] = action.payload;
+        return {
+          ...state,
+          transactions: [
+            ...state.transactions.slice(0, index),
+            action.payload,
+            ...state.transactions.slice(index + 1),
+          ],
+        };
       }
+      return state;
     },
   },
 });

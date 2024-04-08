@@ -11,7 +11,7 @@ import { useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const SingleTransactionPage = () => {
-  const selectedTransaction = useSelector((state) => state.selectedTransaction.selectedTransaction);
+  const selectedTransaction = useSelector((state) => state.selectedTransaction);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { transactionId } = useParams();

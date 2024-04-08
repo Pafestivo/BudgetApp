@@ -39,9 +39,11 @@ const getUserMonthlyIncomes = async (req, res) => {
       [requestedMonth, userId]
     );
 
+    const totalIncome = parseFloat(response[0][0].totalIncome);
+
     res.status(200).json({
       success: true,
-      data: response[0][0],
+      data: totalIncome,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -67,9 +69,11 @@ const getUserMonthlyExpenses = async (req, res) => {
       [requestedMonth, userId]
     );
 
+    const totalExpense = parseFloat(response[0][0].totalExpense);
+
     res.status(200).json({
       success: true,
-      data: response[0][0],
+      data: totalExpense,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
