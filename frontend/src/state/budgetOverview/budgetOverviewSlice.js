@@ -13,18 +13,22 @@ const budgetOverviewSlice = createSlice({
       };
     },
     incrementTotalIncome: (state, action) => {
+      if (state === null) return;
       state.totalIncome += action.payload;
       state.remainingBalance += action.payload;
     },
     decrementTotalIncome: (state, action) => {
+      if (state === null) return;
       state.totalIncome -= action.payload;
       state.remainingBalance -= action.payload;
     },
     incrementTotalExpenses: (state, action) => {
+      if (state === null) return;
       state.totalExpenses += action.payload;
       state.remainingBalance -= action.payload;
     },
     decrementTotalExpenses: (state, action) => {
+      if (state === null) return;
       state.totalExpenses -= action.payload;
       state.remainingBalance += action.payload;
     },
