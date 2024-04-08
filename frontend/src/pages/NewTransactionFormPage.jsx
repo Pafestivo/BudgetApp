@@ -1,12 +1,14 @@
-const NewTransactionForm = () => {
+import NewTransactionForm from "../components/NewTransactionForm";
+
+const NewTransactionFormPage = () => {
 
   // use react-hook-form for the form
   // make sure to increment/decrement the totalIncome/totalExpenses in redux
   // also make sure to add the transaction in fetchedTransactionsSlice
   
   return (
-    <h1>NewTransactionForm</h1>
+    <NewTransactionForm />
   )
 }
 
-export default NewTransactionForm;
+export default NewTransactionFormPage;
