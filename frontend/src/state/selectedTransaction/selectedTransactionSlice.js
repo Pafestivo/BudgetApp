@@ -7,7 +7,7 @@ const selectedTransactionSlice = createSlice({
   initialState,
   reducers: {
     setSelectedItem: (state, action) => {
-      return { ...state, ...action.payload };
+      return action.payload;
     },
   },
 });

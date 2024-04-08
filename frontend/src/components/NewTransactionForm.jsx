@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import "../styles/transactionForm.css";
 import { addTransactions } from '../state/fetchedTransactions/fetchedTransactionsSlice';
 import { incrementTotalExpenses, incrementTotalIncome } from '../state/budgetOverview/budgetOverviewSlice';
+import { setSelectedItem } from '../state/selectedTransaction/selectedTransactionSlice';
 
 const NewTransactionForm = () => {
   const { 
@@ -18,6 +19,7 @@ const NewTransactionForm = () => {
 
   const onSubmit = async (data) => {
     try {
+      setSelectedItem(null);
       const response = await postData("/transactions", data);
       if (response.success) {
         dispatch(addTransactions([response.data]))
