@@ -49,10 +49,7 @@ const TransactionsPage = () => {
       if (filter === "expenses") response = await getData(`/transactions/expenses?page=${page}&limit=${limit}`);
 
       // in case the limit was changed and the page is now out of bounds
-      if(response.paginationData.totalPages < page) {
-        setPage(response.paginationData.totalPages);
-        return;
-      }
+      if(response.paginationData.totalPages < page) setPage(response.paginationData.totalPages);
 
       setTransactions(response.data);
       setTotalPages(response.paginationData.totalPages)
@@ -68,11 +65,16 @@ const TransactionsPage = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchTransactions, page])
   
-  useEffect(() => { // read first comment in fetchedTransactions() for explanation
+  useEffect(() => {
     setPage(1);
     fetchTransactions(1, limit, true)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, limit])
+  }, [filter])
+
+  useEffect(() => {
+    fetchTransactions(page, limit, true)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [limit])
 
   return (
     <>
