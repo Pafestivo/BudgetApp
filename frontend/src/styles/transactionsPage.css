@@ -13,14 +13,14 @@
 
 }
 
-.sortContainer {
+.filterContainer {
   width: 500px;
   max-width: 90vw;
   display: flex;
   column-gap: 10px;
 }
 
-.sortContainer > .btn {
+.filterContainer > .btn {
   max-width: 450px;
 }
 

@@ -4,7 +4,7 @@ import { getData } from "../utils/serverRequests/serverRequests";
 import "../styles/transactionsPage.css"
 import PageNav from "../components/PageNav";
 import { Link } from 'react-router-dom';
-import SortOverlay from "../components/SortOverlay";
+import FilterOverlay from "../components/FilterOverlay";
 import { useDispatch } from "react-redux";
 import { setSelectedItem } from "../state/selectedTransaction/selectedTransactionSlice";
 import { useSelector } from "react-redux";
@@ -16,27 +16,27 @@ const TransactionsPage = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [totalPages, setTotalPages] = useState(null);
-  const [sort, setSort] = useState(null);
-  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [filter, setFilter] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const dispatch = useDispatch();
   const storedTransactions = useSelector((state) => state.fetchedTransactions.transactions);
 
-  const fetchTransactions = useCallback(async (page, limit, sortChanged) => {
-    // when sort is changed I force an API call to get the updated pagination data
-    if (!sortChanged) {
+  const fetchTransactions = useCallback(async (page, limit, forceAPICall) => {
+    // force api call when the pagination data change (i.e filter, limit)
+    if (!forceAPICall) {
       // check if we have enough transactions to show from the store
-      if (sort) {
+      if (filter) {
         let filteredTransactions;
-        if (sort === "incomes") filteredTransactions = storedTransactions.filter((transaction) => transaction.type === "income");
-        if (sort === "expenses") filteredTransactions = storedTransactions.filter((transaction) => transaction.type === "expense");
+        if (filter === "incomes") filteredTransactions = storedTransactions.filter((transaction) => transaction.type === "income");
+        if (filter === "expenses") filteredTransactions = storedTransactions.filter((transaction) => transaction.type === "expense");
         if (filteredTransactions.length >= page * limit) {
-          setTransactions(filteredTransactions.slice((page - 1) * limit, (page * limit) - 1));
+          setTransactions(filteredTransactions.slice((page - 1) * limit, (page * limit)));
           return;
         }
       } else {
         if (storedTransactions.length >= page * limit) {
-          setTransactions(storedTransactions.slice((page - 1) * limit, (page * limit) - 1));
+          setTransactions(storedTransactions.slice((page - 1) * limit, (page * limit)));
           return;
         }
       }
@@ -44,9 +44,16 @@ const TransactionsPage = () => {
     // if not, fetch the proper page from the api and store it on redux
     try {
       let response;
-      if (!sort) response = await getData(`/transactions?page=${page}&limit=${limit}`);
-      if (sort === "incomes") response = await getData(`/transactions/incomes?page=${page}&limit=${limit}`);
-      if (sort === "expenses") response = await getData(`/transactions/expenses?page=${page}&limit=${limit}`);
+      if (!filter) response = await getData(`/transactions?page=${page}&limit=${limit}`);
+      if (filter === "incomes") response = await getData(`/transactions/incomes?page=${page}&limit=${limit}`);
+      if (filter === "expenses") response = await getData(`/transactions/expenses?page=${page}&limit=${limit}`);
+
+      // in case the limit was changed and the page is now out of bounds
+      if(response.paginationData.totalPages < page) {
+        setPage(response.paginationData.totalPages);
+        return;
+      }
+
       setTransactions(response.data);
       setTotalPages(response.paginationData.totalPages)
       // store on redux
@@ -54,20 +61,22 @@ const TransactionsPage = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch, sort, storedTransactions]) 
+  }, [dispatch, filter, storedTransactions]) 
 
   useEffect(() => {
     fetchTransactions(page, limit, false)
-  }, [fetchTransactions, limit, page])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchTransactions, page])
   
   useEffect(() => { // read first comment in fetchedTransactions() for explanation
-    fetchTransactions(page, limit, true)
+    setPage(1);
+    fetchTransactions(1, limit, true)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sort])
+  }, [filter, limit])
 
   return (
     <>
-      {isSortOpen && <SortOverlay setSort={setSort} setIsSortOpen={setIsSortOpen} />}
+      {isFilterOpen && <FilterOverlay setFilter={setFilter} setIsFilterOpen={setIsFilterOpen} />}
   
       <div className="transactionsPageContainer">
         <div className="info">
@@ -81,9 +90,9 @@ const TransactionsPage = () => {
               </Link> 
             ))}
           <Link className="btn newTransactionBtn" to="/transactions/new">Create New Transaction</Link>
-          <div className="sortContainer">
+          <div className="filterContainer">
             <Link to="/" className="btn">Back to dashboard</Link>
-            <p onClick={() => setIsSortOpen(!isSortOpen)} className="btn sortBtn">Sort</p>
+            <p onClick={() => setIsFilterOpen(!isFilterOpen)} className="btn filterBtn">Filter</p>
           </div>
         </div>
         {totalPages && <PageNav page={page} totalPages={totalPages} setPage={setPage} setLimit={setLimit} />}

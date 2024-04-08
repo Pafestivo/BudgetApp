@@ -1,4 +1,4 @@
-.sortOverlay {
+.filterOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@
   flex-direction: column;
 }
 
-.sortOverlay > .buttonsContainer {
+.filterOverlay > .buttonsContainer {
   display: flex;
   flex-direction: column;
   row-gap: 15px;
