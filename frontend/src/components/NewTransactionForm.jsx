@@ -43,7 +43,7 @@ const NewTransactionForm = () => {
               message: "Name must be less than 20 characters"
             },
             pattern: {
-              value: /^[A-Za-z]+$/i,
+              value: /^[A-Za-z\s]+$/i,
               message: "Name must contain only letters"
             }
           })} autoComplete="off" type="text" placeholder='Name' />
