@@ -33,9 +33,9 @@
 ## How to run the project
 
 1. Clone the repo
-2. Rename frontend/.env.example to frontend/.env and make sure the port is correct(the default would be 3000)
-3. Create a new local MySQL database.
-4. Import the structure file and then the data file from backend/db_dump.
-5. Rename backend/.env.example to backend/.env and fill your local database credentials.
+2. Create a new local MySQL database.
+3. Import the structure file and then the data file from backend/db_dump.
+4. Rename .env.example to .env in the root and fill your local database credentials.
+5. Rename frontend/.env.example to frontend/.env and make sure the port is correct(the default would be 3000)
 6. Run `npm run build` in the root directory that contains both backend and frontend folders.
 7. Run `npm run start` in the root directory to run the app.
