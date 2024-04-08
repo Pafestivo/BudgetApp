@@ -38,4 +38,4 @@
 4. Import the structure file and then the data file from backend/db_dump.
 5. Rename backend/.env.example to backend/.env and fill your local database credentials.
 6. Rename frontend/.env.example to frontend/.env and make sure the port is correct(the default would be 3000)
-7. Run `npm run start` to run the app.
+7. Run `npm run start` in the root directory to run the app.
