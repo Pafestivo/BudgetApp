@@ -16,6 +16,9 @@
     - Request Query:
       - page: number
       - limit: number
+  - **api/transactions/:id** - Get single transaction
+    - Request Params:
+      - id: number
 
 - #### PUT:
 

@@ -229,6 +229,31 @@ const getPaginatedIncomes = async (req, res) => {
   }
 };
 
+// @GET /api/transactions/:id
+// @desc get single transaction
+// @requiredParams: id
+const getSingleTransaction = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) return res.status(400).json({ message: "Id is required" });
+
+    const response = await db.query(`SELECT * FROM transactions WHERE id = ?`, [
+      id,
+    ]);
+
+    if (response[0].length === 0) {
+      return res.status(404).json({ message: "Transaction not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: response[0][0],
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // @DELETE /api/transactions/:id
 // @desc delete a transaction
 // @requiredParams: id
@@ -293,4 +318,5 @@ module.exports = {
   getPaginatedIncomes,
   putTransaction,
   deleteTransaction,
+  getSingleTransaction,
 };
